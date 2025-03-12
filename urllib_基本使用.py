@@ -5,7 +5,7 @@ import urllib.request
 #url = 'https://20.climaxfun.pw/forum.php'
 url = 'https://20.climaxfun.pw/'
 #url = 'http://www.baidu.com'
-#url = 'http://www.sina.com.cn'
+
 
 headers = {
     'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36'
