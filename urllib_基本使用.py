@@ -3,7 +3,8 @@ import urllib.request
 
 #(1)定义一个url
 #url = 'https://20.climaxfun.pw/forum.php'
-url = 'https://20.climaxfun.pw/'
+url = 'https://20.climaxfun.pw/forum-68-1.html'
+#url = 'https://20.climaxfun.pw/'
 #url = 'http://www.baidu.com'
 
 
@@ -23,3 +24,19 @@ content = response.read().decode('utf-8')
 
 #(4)打印内容
 print(content)
+
+from lxml import etree
+#from lxml import html
+
+#解析网址 ，获取网页内容 
+
+#tree = etree.fromstring(content)
+tree = etree.HTML(content)
+#tree = html.fromstring(content)
+
+list = tree.xpath('//a[@class="s xst"]')
+
+for i in list:
+    print(i.text)
+
+
