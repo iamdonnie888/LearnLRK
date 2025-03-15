@@ -3,15 +3,14 @@ import urllib.request
 
 #(1)定义一个url
 #url = 'https://20.climaxfun.pw/forum.php'
-url = 'https://20.climaxfun.pw/forum-68-1.html'
+url = 'https://20.climaxfun.pw/forum-68-247.html'
 #url = 'https://20.climaxfun.pw/'
 #url = 'http://www.baidu.com'
 
 
 headers = {
-    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36'
+    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36'
 }
-
 
 request = urllib.request.Request(url=url, headers=headers)
 
@@ -26,14 +25,12 @@ content = response.read().decode('utf-8')
 #(4)打印内容
 print(content)
 
-from lxml import etree
-#from lxml import html
+#from lxml import etree
+from lxml import html
 
 #解析网址 ，获取网页内容 
 
-#tree = etree.fromstring(content)
-tree = etree.HTML(content)
-#tree = html.fromstring(content)
+tree = html.fromstring(content)
 
 list = tree.xpath('//a[@class="s xst"]')
 
