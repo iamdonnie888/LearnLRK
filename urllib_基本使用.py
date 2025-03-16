@@ -1,6 +1,8 @@
 #使用urllib获取seclimax首页源码
 import urllib.request
 
+import pandas as pd
+
 #(1)定义一个url
 #url = 'https://20.climaxfun.pw/forum.php'
 url = 'https://20.climaxfun.pw/forum-68-1.html'
@@ -37,7 +39,21 @@ tree = etree.HTML(content)
 
 list = tree.xpath('//a[@class="s xst"]')
 
+data = {'Name': ['河北彩伽', '三上悠亜', '吉高寧々'],
+        'Number': ['SONE-001', 'SONE-002', 'FSDSS-001'],
+        'Content': ['SONE-308 美脚下半身が大絶頂するまで[媚薬?巨根]ピストンを欲しがるデカチンキメセク大好き脚長スケベお姉さん 楓ふうあ', '姉がメンズエステのバイトを始めたんだが、僕の体で際どいマッサージの練習をしてきてヤバい！ 黒島玲衣', 'AV制作アシスタントに密着 パワハラ上司やセクハラ男優の無茶振りにも健気に働く女性AD 吉高寧々']}
+
+append_data = {'Name': '苍井空', 'Number': 'SONE-888', 'Content': '3'}
+
+# 创建 DataFrame 对象
+df = pd.DataFrame(data)
+
 for i in list:
-    print(i.text)
+    append_data['Content'] = i.text
+    append_df = pd.DataFrame([append_data])
+    df = pd.concat([df, append_df], ignore_index=True)
+    #print(i.text)
 
-
+# 写入 excel 至指定位置（若文件已存在，则覆盖）
+FILE_PATH = r'./搞定数据哈哈.xlsx'
+df.to_excel(FILE_PATH)
