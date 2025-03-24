@@ -1,0 +1,85 @@
+通用二进制包安装
+1. 下载二进制包
+从 MySQL官网 下载 Generic Linux 版本的二进制包（如 mysql-8.0.xx-linux-glibc2.17-x86_64.tar.xz）。
+
+2. 解压并安装
+
+bash
+# 解压到/usr/local
+sudo tar -xvf mysql-8.0.xx-linux-glibc2.17-x86_64.tar.xz -C /usr/local/
+cd /usr/local
+sudo ln -s mysql-8.0.xx-linux-glibc2.17-x86_64 mysql
+
+# 创建MySQL用户和组
+sudo groupadd mysql
+sudo useradd -r -g mysql -s /bin/false mysql
+
+# 初始化数据目录
+sudo mkdir -p /var/lib/mysql
+sudo chown -R mysql:mysql /var/lib/mysql
+sudo /usr/local/mysql/bin/mysqld --initialize --user=mysql --basedir=/usr/local/mysql --datadir=/var/lib/mysql
+
+保存输出的临时root密码（如 A temporary password is generated for root@localhost: xxxxxx）。
+
+执行后的显示是：
+
+donnie@donnie-PC:/usr/local$ sudo groupadd mysql
+donnie@donnie-PC:/usr/local$ sudo useradd -r -g mysql -s /bin/false mysql
+donnie@donnie-PC:/usr/local$ sudo mkdir -p /var/lib/mysql
+donnie@donnie-PC:/usr/local$ sudo chown -R mysql:mysql /var/lib/mysql
+donnie@donnie-PC:/usr/local$ sudo /usr/local/mysql/bin/mysqld --initialize --user=mysql --basedir=/usr/local/mysql --datadir=/var/lib/mysql
+2025-03-24T14:24:31.903009Z 0 [System] [MY-015017] [Server] MySQL Server Initialization - start.
+2025-03-24T14:24:31.910877Z 0 [System] [MY-013169] [Server] /usr/local/mysql/bin/mysqld (mysqld 9.2.0) initializing of server in progress as process 134370
+2025-03-24T14:24:31.991367Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-24T14:24:34.152056Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-24T14:24:44.726865Z 6 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: I(dIK%>t8llp
+2025-03-24T14:24:54.988652Z 0 [System] [MY-015018] [Server] MySQL Server Initialization - end.
+
+
+sudo bin/mysqld --initialize --user=mysql
+2025-03-24T15:22:38.649459Z 0 [System] [MY-015017] [Server] MySQL Server Initialization - start.
+2025-03-24T15:22:38.652632Z 0 [System] [MY-013169] [Server] /usr/local/mysql-9.2.0-linux-glibc2.28-x86_64/bin/mysqld (mysqld 9.2.0) initializing of server in progress as process 8748
+2025-03-24T15:22:38.713735Z 1 [System] [MY-013576] [InnoDB] InnoDB initialization has started.
+2025-03-24T15:22:40.121625Z 1 [System] [MY-013577] [InnoDB] InnoDB initialization has ended.
+2025-03-24T15:22:47.859245Z 6 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: 96iYr+UuHSK4
+2025-03-24T15:22:55.057321Z 0 [System] [MY-015018] [Server] MySQL Server Initialization - end.
+
+3. 启动 MySQL 服务器
+
+bash
+sudo /usr/local/mysql/bin/mysqld_safe --user=mysql &
+
+（按 Enter 返回终端，MySQL 会在后台运行）
+
+4. 使用临时密码登录 MySQL
+
+bash
+/usr/local/mysql/bin/mysql -u root -p
+
+然后输入临时密码 96iYr+UuHSK4（不会显示，直接粘贴后按 Enter）。
+
+5. 修改 root 密码（必须做！）
+
+登录后立即执行：
+
+sql
+ALTER USER 'root'@'localhost' IDENTIFIED BY '你的新密码';
+FLUSH PRIVILEGES;
+
+（把 你的新密码 换成强密码，如 MyNewPassword123!）我就换成了123456
+
+6. 测试新密码
+
+退出 MySQL：
+
+sql
+exit
+
+然后用新密码重新登录：
+
+bash
+/usr/local/mysql/bin/mysql -u root -p
+
+输入新密码，确认是否能正常登录。
+
+
