@@ -83,3 +83,21 @@ bash
 输入新密码，确认是否能正常登录。
 
 
+SELECT 
+    Number ,
+    COUNT(*) AS 重复次数
+FROM 
+    av_number
+GROUP BY 
+    Number
+HAVING 
+    COUNT(*) > 1;
+
+DELETE t1 
+FROM av_number t1
+INNER JOIN av_number t2 
+ON t1.Number = t2.Number
+WHERE t1.Id > t2.Id;
+
+
+

@@ -1,11 +1,12 @@
 import pandas as pd
+import numpy as np
 import mysql.connector
 
 # 连接到 MySQL 数据库
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="benben",
+    password="123456",
     database="av_numbers_db"
 )
 
@@ -33,7 +34,7 @@ for page in range(start_page, end_page + 1):
     page = str(page)
     csv_path = csv_base_path + page + csv_tail_path
     # 读取 CSV 文件
-    df = pd.read_csv(csv_path)
+    df = pd.read_csv(csv_path).replace({np.nan: None})
 
     # 插入数据
     for index, row in df.iterrows():
